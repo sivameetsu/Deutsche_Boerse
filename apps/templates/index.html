@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+    {% block content %}
+            {% block title %}
+            <pre>
+                <div style="background-color: #f8f9fa!important;">
+                    {
+                            "icon_url" : "<span id="response_icon_url">{{quotes.icon_url}}</span>",
+                            "id" : "<span id="response_id">{{quotes.id}}</span>",
+                            "url" : "<a id="response_url">{{quotes.url}}</a>",
+                            "value" : "<span id="response_text">{{quotes.value}}</span>"
+                            "created_at" : "<span id="response_text">{{quotes.created_at}}</span>"
+                            "updated_at" : "<span id="response_text">{{quotes.updated_at}}</span>"
+                    }
+                </div>
+            </pre>
+        {% endblock %}
+{% endblock %}

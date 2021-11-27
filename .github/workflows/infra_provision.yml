@@ -1,0 +1,50 @@
+---
+name: infra provisioning
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'infra-code/**'
+jobs:
+  dev:
+    name: terraform deployment
+    runs-on: ubuntu-latest
+    env:
+      bucket: "terraform-backend-buckets"
+      bucker_region: "eu-central-1"
+    strategy:
+      matrix:
+        folder: ['infra-code']
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ matrix.folder }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+          aws-region: us-east-1
+      - name: initial
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ env.bucket }}" \
+            -backend-config="key=dev/tfstate.tfstate" \
+            -backend-config="region=${{ env.bucker_region }}" \ 
+            -backend=true
+      - name: validate
+        run: terraform validate
+      - name: plan
+        run: terraform  plan -var-file=config.tfvars
+      - name: apply
+        run: terraform  apply -var-file=config.tfvars -auto-approve
+#       - name: terraform destroy
+#         run: terraform  destroy -var-file=config.tfvars -auto-approve
