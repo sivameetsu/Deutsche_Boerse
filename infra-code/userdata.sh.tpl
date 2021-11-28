@@ -21,5 +21,6 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 sudo systemctl start docker.service
 sudo systemctl enable docker.service
+sudo docker network create  server
 sudo usermod -a -G docker ubuntu 
 curl https://raw.githubusercontent.com/FourTimes/run-time-scripts/main/container-creation.sh -o /home/ubuntu/docker.sh
