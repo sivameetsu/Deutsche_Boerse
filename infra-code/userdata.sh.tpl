@@ -23,4 +23,4 @@ sudo systemctl start docker.service
 sudo systemctl enable docker.service
 sudo docker network create  server
 sudo usermod -a -G docker ubuntu 
-curl https://raw.githubusercontent.com/FourTimes/run-time-scripts/main/container-creation.sh -o /home/ubuntu/docker.sh
+curl https://raw.githubusercontent.com/sivameetsu/aws-eks-cluster-terraform-/main/container-creation.sh -o /home/ubuntu/docker.sh
