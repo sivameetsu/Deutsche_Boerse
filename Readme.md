@@ -1,4 +1,4 @@
-#### flask-application
+#### Python Application
 
 In this application developed by python flask framework.
 
