@@ -10,6 +10,8 @@ jobs:
   dev:
     name: Flask app deployment
     runs-on: ubuntu-latest
+    env:
+      buildId: $GITHUB_RUN_ID
     strategy:
       matrix:
         folder: ['apps']
@@ -28,26 +30,28 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
-      # - name: docker login
-      #   run: |
-      #     echo ${{ secrets.DOCKER_TOKEN }} | docker login --username ${{ secrets.DOCKER_USER }} --password-stdin
       - name: docker build 
         run: |
           docker build -t  ${{ secrets.DOCKER_USER }}/flaskapi:$GITHUB_RUN_ID .
+          docker build -t  ${{ secrets.DOCKER_USER }}/reverse-proxy:$GITHUB_RUN_ID ./reverse-proxy
       - name: show the docker image name
         run: |
           echo ${{ secrets.DOCKER_USER }}/flaskapi:$GITHUB_RUN_ID
+          echo ${{ secrets.DOCKER_USER }}/reverse-proxy:$GITHUB_RUN_ID
       - name: docker push 
         run: |
           docker push ${{ secrets.DOCKER_USER }}/flaskapi:$GITHUB_RUN_ID
+          docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:$GITHUB_RUN_ID
       - name: docker logout
         run: |
           docker logout
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
+        env:
+          buildId: $GITHUB_RUN_ID
         with:
           host: "34.234.73.233"
           username: "ubuntu"
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          script: bash docker.sh --cport='5000' --hport='80' --name='flask-server' --image=flaskapi --version="1510697070" --username=${{ secrets.DOCKER_USER }}
+          script: bash docker.sh --cport='5000' --hport='80' --name='flask-server' --image=flaskapi --version=${{ env.buildId }} --username=${{ secrets.DOCKER_USER }}
