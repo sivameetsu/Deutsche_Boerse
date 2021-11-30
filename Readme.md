@@ -5,7 +5,6 @@
     `Python application has been created using flask framework to render the interesting Chuck Norris jokes from API https://api.chucknorris.io/ and display through webpage . 
      Infrastructure has to be created using IAC.` 
      
-      [Redis](https://redis.io/) [Redus Quickstart Guide](https://github.com/sivameetsu/flows/blob/main/task.md)
 
 This task has been divided into two parts 
   1. Infra Code
