@@ -11,8 +11,8 @@ jobs:
     name: terraform deployment
     runs-on: ubuntu-latest
     env:
-      bucket: "terraform-backend-buckets"
-      bucker_region: "eu-central-1"
+      BUCKET_NAME: "terraform-backend-buckets"
+      BUCKET_REGION: "eu-central-1"
     strategy:
       matrix:
         folder: ['infra-code']
@@ -36,16 +36,15 @@ jobs:
       - name: initial
         run: |
           terraform init \
-            -backend-config="bucket=${{ env.bucket }}" \
-            -backend-config="key=dev/tfstate.tfstate" \
-            -backend-config="region=${{ env.bucker_region }}" \ 
-            -backend=true
+          -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+          -backend-config="key=dev/tfstate.tfstate" \
+          -backend-config="region=${{ env.BUCKET_REGION }}" \
+          -backend=true
       - name: validate
         run: terraform validate
       - name: plan
         run: terraform  plan -var-file=config.tfvars
       - name: apply
         run: terraform  apply -var-file=config.tfvars -auto-approve
-        
-#       - name: terraform destroy
-#         run: terraform  destroy -var-file=config.tfvars -auto-approve
+      - name: terraform destroy
+        run: terraform  destroy -var-file=config.tfvars -auto-approve
