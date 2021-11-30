@@ -54,4 +54,4 @@ jobs:
           username: "ubuntu"
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          script: bash docker.sh --cport='5000' --hport='80' --name='flask-server' --image=flaskapi --version=${{ env.buildId }} --username=${{ secrets.DOCKER_USER }}
+          script: bash docker.sh --cport='5000' --hport='80' --name='flask-server' --image=flaskapi --version="1520449311" --username=${{ secrets.DOCKER_USER }}
