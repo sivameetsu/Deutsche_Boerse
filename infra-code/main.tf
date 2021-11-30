@@ -15,7 +15,7 @@ module "server" {
   ami                  = "ami-083654bd07b5da81d"
   availability_zone    = "${var.region}b"
   instance_type        = "c4.xlarge"
-  key_name             = "siva"
+  key_name             = "sami"
   subnet_id            = module.vpc.subnet_id
   vpc_id               = module.vpc.vpc_id
   security_group_name  = "flask-app-server-security-group"
