@@ -9,6 +9,6 @@ api="https://api.chucknorris.io/jokes/random"
 def index():
     response = requests.get(api)
     return render_template ("index.html", quotes=response.json())
-# proxy
+# proxy1
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True) 
